@@ -55,6 +55,19 @@ ShellRoot {
   NotificationServer {
     id: notifServer
 
+    // Advertise all notification capabilities Quickshell supports.
+    // (Most are disabled by default per the spec integration.)
+    actionsSupported: true
+    actionIconsSupported: true
+    bodySupported: true
+    bodyMarkupSupported: true
+    bodyHyperlinksSupported: true
+    bodyImagesSupported: true
+    imageSupported: true
+    inlineReplySupported: true
+    persistenceSupported: true
+    keepOnReload: true
+
     onNotification: function(notification) {
       if (!notification) {
         return;

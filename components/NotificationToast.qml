@@ -2,11 +2,37 @@ import QtQuick
 import QtQuick.Shapes
 
 Item {
+  id: toastRoot
   property string fontFamily: ""
+  property var notification: null
   property string toastAppName: ""
   property string toastSummary: ""
   property string toastBody: ""
   property string toastImage: ""
+
+  function tintLinks(richText) {
+    if (!richText || typeof richText !== "string") {
+      return richText;
+    }
+
+    // Force link coloring even if Qt ignores `linkColor`.
+    // This assumes well-formed <a>...</a> markup from clients.
+    var s = richText;
+    s = s.replace(/<a\b([^>]*)>/gi, '<a$1><font color="#83a598">');
+    s = s.replace(/<\/(a)>/gi, '</font></$1>');
+    return s;
+  }
+
+  function openLink(link) {
+    if (link && link.length > 0) {
+      Qt.openUrlExternally(link);
+    }
+
+    // Link activation is an explicit user action; close the toast.
+    if (toastRoot.notification) {
+      toastRoot.notification.dismiss();
+    }
+  }
 
   property int padding: 10
 
@@ -134,18 +160,24 @@ Item {
         }
 
         Text {
-          text: toastSummary
+          text: tintLinks(toastSummary)
           width: parent.width
           color: "#ebdbb2" // fg0
           font.family: fontFamily
           font.pixelSize: 12
           font.bold: true
           wrapMode: Text.WordWrap
+
+          textFormat: Text.RichText
+          linkColor: "#83a598" // aqua
+          onLinkActivated: function(link) {
+            toastRoot.openLink(link);
+          }
         }
 
         Text {
           visible: toastBody.length > 0
-          text: toastBody
+          text: tintLinks(toastBody)
           width: parent.width
           color: "#ebdbb2" // fg0
           opacity: 0.9
@@ -154,6 +186,71 @@ Item {
           wrapMode: Text.WordWrap
           maximumLineCount: 3
           elide: Text.ElideRight
+
+          // When the server advertises markup/hyperlinks, allow rendering them.
+          textFormat: Text.RichText
+          linkColor: "#83a598" // aqua
+          onLinkActivated: function(link) {
+            toastRoot.openLink(link);
+          }
+        }
+
+        Rectangle {
+          visible: notification && notification.hasInlineReply
+          width: parent.width
+          height: 26
+          radius: 6
+          color: "#3c3836" // bg1
+          border.width: 1
+          border.color: "#504945" // bg3
+
+          MouseArea {
+            anchors.fill: parent
+            onClicked: {
+              replyInput.forceActiveFocus();
+              mouse.accepted = true;
+            }
+          }
+
+          TextInput {
+            id: replyInput
+            anchors.fill: parent
+            anchors.margins: 6
+            font.family: fontFamily
+            font.pixelSize: 12
+            color: "#ebdbb2" // fg0
+            selectionColor: "#504945" // bg3
+            selectedTextColor: "#fbf1c7" // fg1
+            clip: true
+
+            Keys.onReturnPressed: {
+              if (!notification) {
+                return;
+              }
+
+              var reply = replyInput.text;
+              if (reply.length === 0) {
+                return;
+              }
+
+              notification.sendInlineReply(reply);
+              notification.dismiss();
+            }
+          }
+
+          Text {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.margins: 6
+            text: notification ? (notification.inlineReplyPlaceholder || "Reply") : "Reply"
+            color: "#928374" // dim
+            font.family: fontFamily
+            font.pixelSize: 12
+            elide: Text.ElideRight
+            visible: replyInput.text.length === 0 && !replyInput.activeFocus
+            z: -1
+          }
         }
       }
     }

@@ -52,6 +52,8 @@ PopupWindow {
         }
       }
 
+      // Some clients / servers may treat the identifier differently when action
+      // icons are in use. Fall back to the first action.
       actions[0].invoke();
       return;
     }
@@ -96,6 +98,7 @@ PopupWindow {
           anchors.left: parent.left
           anchors.right: parent.right
           fontFamily: toasts.fontFamily
+          notification: notif
           toastAppName: notif ? (notif.appName || "") : ""
           toastSummary: notif ? (notif.summary || "") : ""
           toastBody: notif ? (notif.body || "") : ""
