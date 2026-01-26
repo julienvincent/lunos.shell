@@ -2,14 +2,13 @@ import Quickshell.Services.UPower
 import QtQuick
 
 Item {
-  // Icon font that contains the battery glyphs.
   property string iconFontFamily: "Symbols Nerd Font"
-
-  // Main text font for the percentage.
   property string fontFamily: ""
 
   // Base "normal" color (used when >= 70%).
-  property color iconColor: "#ebdbb2" // fg0
+  property color iconColor: "#ebdbb2"
+
+  property color chargingColor: "#b8bb26"
 
   property int iconPixelSize: 16
   property bool showPercent: true
@@ -39,11 +38,12 @@ Item {
     if (!visible) {
       return false;
     }
-    return dev.changeRate > 0 || dev.state === UPowerDeviceState.Charging || dev.state === UPowerDeviceState.PendingCharge;
+
+    return !UPower.onBattery && (dev.state === UPowerDeviceState.Charging || dev.state === UPowerDeviceState.PendingCharge);
   }
 
   property bool isPlugged: !UPower.onBattery
-  property bool isLow: percentage < 10
+  property bool isLow: percentage < 10 && !isPlugged && !isCharging
   property bool flashOn: true
 
   Timer {
@@ -58,6 +58,10 @@ Item {
   property color effectiveColor: {
     if (!visible) {
       return iconColor;
+    }
+
+    if (isCharging) {
+      return chargingColor;
     }
 
     if (isLow) {
@@ -99,10 +103,10 @@ Item {
         }
 
         if (isCharging) {
-          return ""; // bolt
+          return "";
         }
 
-        return ""; // plug
+        return "";
       }
     }
 
