@@ -8,6 +8,51 @@ PopupWindow {
   property string fontFamily: ""
   property bool enabled: true
 
+  // Chromium notifications include the page origin as a leading <a> tag in the body.
+  // Extract it to use as the app name and strip it from the body.
+  function parseChromiumBody(notif) {
+    if (!notif || notif.desktopEntry !== "chromium-browser") {
+      return null;
+    }
+
+    var body = notif.body || "";
+    var match = body.match(/^<a\b[^>]*>([\s\S]*?)<\/a>\s*/i);
+    if (!match) {
+      return null;
+    }
+
+    return {
+      appName: match[1].trim(),
+      body: body.slice(match[0].length)
+    };
+  }
+
+  // Transformers for specific Chromium notification sources.
+  // Keys are regex patterns matched against the extracted app name (from the <a> tag).
+  property var chromiumTransformers: ({
+    ".*app\\.slack\\.com.*": {
+      summary: function(s) {
+        return s.replace(/^new message (?:from|in) /i, "");
+      }
+    }
+  })
+
+  function applyChromiumTransformers(appName, field, value) {
+    if (!appName || !value) {
+      return value;
+    }
+    for (var pattern in chromiumTransformers) {
+      var regex = new RegExp(pattern, "i");
+      if (regex.test(appName)) {
+        var transformer = chromiumTransformers[pattern][field];
+        if (typeof transformer === "function") {
+          return transformer(value);
+        }
+      }
+    }
+    return value;
+  }
+
   // Toast lifetime behavior
   property int defaultTimeoutMs: 6000
   property int maxTimeoutMs: 3600000
@@ -99,9 +144,36 @@ PopupWindow {
           anchors.right: parent.right
           fontFamily: toasts.fontFamily
           notification: notif
-          toastAppName: notif ? (notif.appName || "") : ""
-          toastSummary: notif ? (notif.summary || "") : ""
-          toastBody: notif ? (notif.body || "") : ""
+          toastAppName: {
+            if (!notif) {
+              return "";
+            }
+            var parsed = toasts.parseChromiumBody(notif);
+            if (parsed) {
+              return parsed.appName;
+            }
+            return notif.appName || "";
+          }
+          toastSummary: {
+            if (!notif) {
+              return "";
+            }
+            var parsed = toasts.parseChromiumBody(notif);
+            if (parsed) {
+              return toasts.applyChromiumTransformers(parsed.appName, "summary", notif.summary || "");
+            }
+            return notif.summary || "";
+          }
+          toastBody: {
+            if (!notif) {
+              return "";
+            }
+            var parsed = toasts.parseChromiumBody(notif);
+            if (parsed) {
+              return parsed.body;
+            }
+            return notif.body || "";
+          }
           toastImage: {
             function resolveImage(src) {
               if (!src) {

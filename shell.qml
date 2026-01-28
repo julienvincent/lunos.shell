@@ -72,6 +72,17 @@ ShellRoot {
       if (!notification) {
         return;
       }
+      console.log(
+        "Got Notification:",
+        JSON.stringify({
+          appIcon: notification.appIcon,
+          desktopEntry: notification.desktopEntry,
+          summary: notification.summary,
+          appName: notification.appName,
+          body: notification.body,
+          hints: notification.hints,
+        }, null, 2)
+      );
 
       // Prevent the server from immediately discarding the notification.
       notification.tracked = true;
