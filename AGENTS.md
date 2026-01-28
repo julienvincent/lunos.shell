@@ -1,5 +1,13 @@
 # Personal DE Shell
 
+## Checking Errors
+
+After making changes, make sure to check quickshell logs by running
+
+```bash
+quickshell log
+```
+
 ## LSP
 
 We are aware of the following issues:

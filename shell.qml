@@ -9,15 +9,26 @@ ShellRoot {
 
   property string focusedScreenName: ""
 
+  function isFocusedScreen(screen) {
+    if (focusedScreenName.length === 0) {
+      return true;
+    }
+    if (!screen) {
+      return false;
+    }
+    return screen.name === focusedScreenName;
+  }
+
   function updateFocusedScreenName() {
     var name = "";
-    for (var i = 0; i < Hyprland.monitors.length; i++) {
-      var m = Hyprland.monitors[i];
-      if (m && m.focused) {
-        name = m.name;
-      }
+    var m = Hyprland.focusedMonitor;
+    if (m && m.name) {
+      name = m.name;
+    } else if (Hyprland.activeToplevel && Hyprland.activeToplevel.monitor && Hyprland.activeToplevel.monitor.name) {
+      // Fall back to the monitor the active window is on.
+      name = Hyprland.activeToplevel.monitor.name;
     }
-    if (name.length === 0 && Quickshell.screens.length > 0) {
+    if (name.length === 0 && Quickshell.screens.length > 0 && Quickshell.screens[0]) {
       name = Quickshell.screens[0].name;
     }
     focusedScreenName = name;
@@ -95,19 +106,37 @@ ShellRoot {
     Scope {
       required property var modelData
 
-      // Avoid name shadowing with Bar.modelData
-      property var screenModel: modelData
+      Loader {
+        id: screenUi
+        active: modelData !== null && modelData !== undefined
+        sourceComponent: screenUiComponent
 
-      Bar {
-        id: bar
-        modelData: screenModel
+        // Pass the current screen to the loaded component.
+        property var screenModelData: modelData
       }
 
-      NotificationToasts {
-        anchorWindow: bar
-        model: notifServer.trackedNotifications
-        fontFamily: bar.uiFontFamily
-        enabled: root.focusedScreenName.length === 0 || screenModel.name === root.focusedScreenName
+      Component {
+        id: screenUiComponent
+
+        Item {
+          Bar {
+            id: bar
+            modelData: screenUi.screenModelData
+          }
+
+          VolumeOsd {
+            anchorWindow: bar
+            fontFamily: bar.uiFontFamily
+            enabled: root.isFocusedScreen(screenUi.screenModelData)
+          }
+
+          NotificationToasts {
+            anchorWindow: bar
+            model: notifServer.trackedNotifications
+            fontFamily: bar.uiFontFamily
+            enabled: root.isFocusedScreen(screenUi.screenModelData)
+          }
+        }
       }
     }
   }
