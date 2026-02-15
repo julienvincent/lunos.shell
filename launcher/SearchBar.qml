@@ -44,6 +44,12 @@ Item {
       focus: true
 
       onTextChanged: search_bar.textEdited(text)
+
+      cursorDelegate: Rectangle {
+        width: 2
+        color: Theme.colors.grey2
+        radius: 1
+      }
     }
   }
 }
