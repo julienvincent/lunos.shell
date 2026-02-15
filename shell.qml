@@ -3,11 +3,36 @@ import Quickshell.Hyprland
 import Quickshell.Services.Notifications
 import QtQuick
 import "components"
+import "launcher"
 
 ShellRoot {
   id: root
 
   property string focusedScreenName: ""
+
+  property bool launcher_open: false
+  property string launcher_screen_name: ""
+  property int launcher_open_seq: 0
+
+  function toggleLauncher() {
+    if (launcher_open) {
+      launcher_open = false;
+      return;
+    }
+
+    if (focusedScreenName.length === 0) {
+      updateFocusedScreenName();
+    }
+
+    var target_name = focusedScreenName;
+    if (target_name.length === 0 && Quickshell.screens.length > 0 && Quickshell.screens[0]) {
+      target_name = Quickshell.screens[0].name;
+    }
+
+    launcher_screen_name = target_name;
+    launcher_open_seq += 1;
+    launcher_open = true;
+  }
 
   function isFocusedScreen(screen) {
     if (focusedScreenName.length === 0) {
@@ -61,6 +86,14 @@ ShellRoot {
     onTriggered: {
       refreshFocusedMonitor();
     }
+  }
+
+  GlobalShortcut {
+    appid: "lunos"
+    name: "launcher"
+    description: "App launcher"
+
+    onPressed: root.toggleLauncher()
   }
 
   NotificationServer {
@@ -133,6 +166,15 @@ ShellRoot {
             anchorWindow: bar
             model: notifServer.trackedNotifications
             enabled: root.isFocusedScreen(screenUi.screenModelData)
+          }
+
+          AppLauncher {
+            anchorWindow: bar
+            open: root.launcher_open && root.launcher_screen_name === screenUi.screenModelData.name
+            open_seq: root.launcher_open_seq
+            enabled: true
+
+            onCloseRequested: root.launcher_open = false
           }
         }
       }

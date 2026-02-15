@@ -5,6 +5,7 @@
 
 var colors = {
   // Backgrounds
+  bg_dark: "#1B1B1B",
   bg_dim: "#252423",
   bg0: "#32302F",
   bg1: "#3C3836",
