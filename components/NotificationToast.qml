@@ -36,8 +36,8 @@ Item {
 
   property int padding: 10
 
-  signal clicked()
-  signal dismissClicked()
+  signal clicked
+  signal dismissClicked
 
   implicitWidth: 360
   implicitHeight: contentRow.implicitHeight + padding * 2
@@ -47,8 +47,10 @@ Item {
 
   Rectangle {
     anchors.fill: parent
-    radius: 10
+    radius: 6
     color: Theme.colors.bg0
+    border.width: 1.5
+    border.color: Theme.colors.aqua
   }
 
   MouseArea {
@@ -73,10 +75,10 @@ Item {
     anchors.rightMargin: 8
     z: 5
 
-      Text {
+    Text {
       anchors.centerIn: parent
       text: "x"
-        color: Theme.colors.fg0
+      color: Theme.colors.fg0
       font.family: Theme.fonts.text
       font.pixelSize: 12
       font.bold: true
@@ -89,25 +91,6 @@ Item {
         mouse.accepted = true;
         parent.parent.dismissClicked();
       }
-    }
-  }
-
-  Shape {
-    anchors.fill: parent
-
-  ShapePath {
-      strokeColor: Theme.colors.yellow
-      strokeWidth: 2
-      fillColor: "transparent"
-      strokeStyle: ShapePath.DashLine
-      dashPattern: [6, 4]
-
-      startX: 1
-      startY: 1
-      PathLine { x: parent.width - 1; y: 1 }
-      PathLine { x: parent.width - 1; y: parent.height - 1 }
-      PathLine { x: 1; y: parent.height - 1 }
-      PathLine { x: 1; y: 1 }
     }
   }
 
@@ -170,7 +153,7 @@ Item {
 
           textFormat: Text.RichText
           linkColor: Theme.colors.blue
-          onLinkActivated: function(link) {
+          onLinkActivated: function (link) {
             toastRoot.openLink(link);
           }
         }
@@ -190,7 +173,7 @@ Item {
           // When the server advertises markup/hyperlinks, allow rendering them.
           textFormat: Text.RichText
           linkColor: Theme.colors.blue
-          onLinkActivated: function(link) {
+          onLinkActivated: function (link) {
             toastRoot.openLink(link);
           }
         }
