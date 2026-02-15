@@ -126,14 +126,12 @@ ShellRoot {
 
           VolumeOsd {
             anchorWindow: bar
-            fontFamily: bar.uiFontFamily
             enabled: root.isFocusedScreen(screenUi.screenModelData)
           }
 
           NotificationToasts {
             anchorWindow: bar
             model: notifServer.trackedNotifications
-            fontFamily: bar.uiFontFamily
             enabled: root.isFocusedScreen(screenUi.screenModelData)
           }
         }

@@ -3,14 +3,12 @@
 import "../themes/theme.js" as Theme
 
 Row {
-  property string fontFamily: ""
-
   spacing: 6
 
   Text {
     text: "MEM"
     color: Theme.colors.grey1
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
   }
 
@@ -18,7 +16,7 @@ Row {
     id: memValue
     text: "-"
     color: Theme.colors.fg0
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
     font.bold: true
   }

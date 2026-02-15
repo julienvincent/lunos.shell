@@ -3,8 +3,6 @@
 import "../themes/theme.js" as Theme
  
  Row {
-   property string fontFamily: ""
- 
    spacing: 8
 
    SystemClock {
@@ -15,7 +13,7 @@ import "../themes/theme.js" as Theme
    Text {
      id: clockDate
      color: Theme.colors.fg0
-     font.family: fontFamily
+     font.family: Theme.fonts.text
      font.pixelSize: 12
      font.bold: true
      text: Qt.formatDateTime(clock.date, "ddd dd")
@@ -24,7 +22,7 @@ import "../themes/theme.js" as Theme
    Text {
      id: clockTime
      color: Theme.colors.fg0
-     font.family: fontFamily
+     font.family: Theme.fonts.text
      font.pixelSize: 12
      font.bold: true
      text: Qt.formatDateTime(clock.date, "HH:mm")

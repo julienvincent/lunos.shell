@@ -3,9 +3,6 @@ import QtQuick
 import "../themes/theme.js" as Theme
 
 Item {
-  property string iconFontFamily: "Symbols Nerd Font"
-  property string fontFamily: ""
-
   // Base "normal" color (used when >= 70%).
   property color iconColor: Theme.colors.fg0
 
@@ -95,7 +92,7 @@ Item {
 
       visible: isPlugged || isCharging
       color: isCharging ? effectiveColor : Theme.colors.grey1 // dim when just plugged
-      font.family: iconFontFamily
+      font.family: Theme.fonts.icon
       font.pixelSize: iconPixelSize
 
       text: {
@@ -116,7 +113,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
 
       color: effectiveColor
-      font.family: iconFontFamily
+      font.family: Theme.fonts.icon
       font.pixelSize: iconPixelSize
 
       text: {
@@ -146,7 +143,7 @@ Item {
       visible: parent.parent.visible && showPercent
 
       color: percentage >= 70 ? Theme.colors.grey1 : effectiveColor
-      font.family: fontFamily.length ? fontFamily : iconFontFamily
+      font.family: Theme.fonts.text
       font.pixelSize: percentPixelSize
       font.bold: true
 

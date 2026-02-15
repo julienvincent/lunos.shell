@@ -7,7 +7,6 @@ import "../themes/theme.js" as Theme
 PopupWindow {
   id: osd
   required property var anchorWindow
-  property string fontFamily: ""
   property bool enabled: true
   property int hideAfterMs: 1200
 
@@ -149,7 +148,7 @@ PopupWindow {
       Text {
         text: (osd.audio && osd.audio.muted) ? "MUT" : "VOL"
         color: Theme.colors.fg0
-        font.family: osd.fontFamily
+        font.family: Theme.fonts.text
         font.pixelSize: 12
         font.bold: true
         Layout.preferredWidth: 28
@@ -194,7 +193,7 @@ PopupWindow {
           return String(p) + "%";
         }
         color: Theme.colors.fg0
-        font.family: osd.fontFamily
+        font.family: Theme.fonts.text
         font.pixelSize: 12
         font.bold: true
         Layout.alignment: Qt.AlignVCenter

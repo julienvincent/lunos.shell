@@ -5,7 +5,6 @@ PopupWindow {
   id: toasts
   required property var anchorWindow
   required property var model
-  property string fontFamily: ""
   property bool enabled: true
 
   // Chromium notifications include the page origin as a leading <a> tag in the body.
@@ -142,7 +141,6 @@ PopupWindow {
           id: toast
           anchors.left: parent.left
           anchors.right: parent.right
-          fontFamily: toasts.fontFamily
           notification: notif
           toastAppName: {
             if (!notif) {

@@ -2,11 +2,10 @@
 import "../themes/theme.js" as Theme
 
 Text {
-  property string fontFamily: ""
   property color sepColor: Theme.colors.grey1
 
   text: "/"
   color: sepColor
-  font.family: fontFamily
+  font.family: Theme.fonts.text
   font.pixelSize: 12
 }

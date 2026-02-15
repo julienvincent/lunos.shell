@@ -3,8 +3,6 @@
 import "../themes/theme.js" as Theme
 
 Row {
-  property string fontFamily: ""
-
   spacing: 6
 
   Repeater {
@@ -30,7 +28,7 @@ Row {
         anchors.centerIn: parent
         text: modelData ? modelData.name : ""
         font.pixelSize: 12
-        font.family: fontFamily
+        font.family: Theme.fonts.text
         font.bold: true
         color: Theme.colors.fg0
       }

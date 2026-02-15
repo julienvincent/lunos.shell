@@ -50,3 +50,8 @@ var colors = {
   grey1: "#928374",
   grey2: "#A89984",
 };
+
+var fonts = {
+  text: "MonoLisa",
+  icon: "Symbols Nerd Font Mono",
+};

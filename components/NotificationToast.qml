@@ -4,7 +4,6 @@ import "../themes/theme.js" as Theme
 
 Item {
   id: toastRoot
-  property string fontFamily: ""
   property var notification: null
   property string toastAppName: ""
   property string toastSummary: ""
@@ -78,7 +77,7 @@ Item {
       anchors.centerIn: parent
       text: "x"
         color: Theme.colors.fg0
-      font.family: fontFamily
+      font.family: Theme.fonts.text
       font.pixelSize: 12
       font.bold: true
     }
@@ -155,7 +154,7 @@ Item {
           text: toastAppName
           width: parent.width
           color: Theme.colors.grey1
-          font.family: fontFamily
+          font.family: Theme.fonts.text
           font.pixelSize: 11
           elide: Text.ElideRight
         }
@@ -164,7 +163,7 @@ Item {
           text: tintLinks(toastSummary)
           width: parent.width
           color: Theme.colors.fg0
-          font.family: fontFamily
+          font.family: Theme.fonts.text
           font.pixelSize: 12
           font.bold: true
           wrapMode: Text.WordWrap
@@ -182,7 +181,7 @@ Item {
           width: parent.width
           color: Theme.colors.fg0
           opacity: 0.9
-          font.family: fontFamily
+          font.family: Theme.fonts.text
           font.pixelSize: 12
           wrapMode: Text.WordWrap
           maximumLineCount: 3
@@ -217,7 +216,7 @@ Item {
             id: replyInput
             anchors.fill: parent
             anchors.margins: 6
-            font.family: fontFamily
+            font.family: Theme.fonts.text
             font.pixelSize: 12
             color: Theme.colors.fg0
             selectionColor: Theme.colors.bg3
@@ -246,7 +245,7 @@ Item {
             anchors.margins: 6
             text: notification ? (notification.inlineReplyPlaceholder || "Reply") : "Reply"
             color: Theme.colors.grey1
-            font.family: fontFamily
+            font.family: Theme.fonts.text
             font.pixelSize: 12
             elide: Text.ElideRight
             visible: replyInput.text.length === 0 && !replyInput.activeFocus

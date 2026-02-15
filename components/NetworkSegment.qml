@@ -3,14 +3,12 @@
 import "../themes/theme.js" as Theme
 
 Row {
-  property string fontFamily: ""
-
   spacing: 0
 
   Text {
     text: "NET"
     color: Theme.colors.grey1
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
   }
 
@@ -20,7 +18,7 @@ Row {
     id: netDown
     text: "-"
     color: Theme.colors.fg0
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
     font.bold: true
   }
@@ -28,14 +26,14 @@ Row {
   Text {
     text: "↓"
     color: Theme.colors.blue
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
   }
 
   Text {
     text: "↑"
     color: Theme.colors.purple
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
   }
 
@@ -43,7 +41,7 @@ Row {
     id: netUp
     text: "-"
     color: Theme.colors.fg0
-    font.family: fontFamily
+    font.family: Theme.fonts.text
     font.pixelSize: 12
     font.bold: true
   }

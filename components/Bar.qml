@@ -15,7 +15,6 @@ PanelWindow {
 
   implicitHeight: 30
 
-  property string uiFontFamily: "MonoLisa"
   property color sepTextColor: Theme.colors.grey1 // subtle
 
   // Reserve space so tiled windows start below the bar.
@@ -30,7 +29,6 @@ PanelWindow {
     anchors.left: parent.left
     anchors.leftMargin: 10
     anchors.verticalCenter: parent.verticalCenter
-    fontFamily: uiFontFamily
   }
 
   Row {
@@ -39,15 +37,15 @@ PanelWindow {
     anchors.verticalCenter: parent.verticalCenter
     spacing: 12
 
-    NetworkSegment { fontFamily: uiFontFamily }
-    Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
-    CpuSegment { fontFamily: uiFontFamily }
-    Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
-    MemSegment { fontFamily: uiFontFamily }
-    Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
-    BatteryIcon { iconColor: Theme.colors.fg0; fontFamily: uiFontFamily }
-    Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
-    ClockSegment { fontFamily: uiFontFamily }
+    NetworkSegment {}
+    Separator { sepColor: sepTextColor }
+    CpuSegment {}
+    Separator { sepColor: sepTextColor }
+    MemSegment {}
+    Separator { sepColor: sepTextColor }
+    BatteryIcon { iconColor: Theme.colors.fg0 }
+    Separator { sepColor: sepTextColor }
+    ClockSegment {}
   }
 
   BottomBorder {
