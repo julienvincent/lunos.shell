@@ -1,8 +1,9 @@
-import QtQuick
+ import QtQuick
+import "../themes/theme.js" as Theme
 
 Text {
   property string fontFamily: ""
-  property color sepColor: "#928374"
+  property color sepColor: Theme.colors.grey1
 
   text: "/"
   color: sepColor

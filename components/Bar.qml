@@ -1,5 +1,6 @@
-import Quickshell
-import QtQuick
+ import Quickshell
+ import QtQuick
+import "../themes/theme.js" as Theme
 
 PanelWindow {
   id: barWindow
@@ -15,14 +16,14 @@ PanelWindow {
   implicitHeight: 30
 
   property string uiFontFamily: "MonoLisa"
-  property color sepTextColor: "#928374" // subtle
+  property color sepTextColor: Theme.colors.grey1 // subtle
 
   // Reserve space so tiled windows start below the bar.
   exclusiveZone: implicitHeight
 
   Rectangle {
     anchors.fill: parent
-    color: "#282828" // bg0
+    color: Theme.colors.bg0
   }
 
   WorkspaceSegment {
@@ -44,7 +45,7 @@ PanelWindow {
     Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
     MemSegment { fontFamily: uiFontFamily }
     Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
-    BatteryIcon { iconColor: "#ebdbb2"; fontFamily: uiFontFamily }
+    BatteryIcon { iconColor: Theme.colors.fg0; fontFamily: uiFontFamily }
     Separator { fontFamily: uiFontFamily; sepColor: sepTextColor }
     ClockSegment { fontFamily: uiFontFamily }
   }
@@ -53,7 +54,7 @@ PanelWindow {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    borderColor: "#928374" // subtle
+    borderColor: Theme.colors.grey1 // subtle
   }
 
 }

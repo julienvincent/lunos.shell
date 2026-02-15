@@ -1,5 +1,6 @@
-import Quickshell.Io
-import QtQuick
+ import Quickshell.Io
+ import QtQuick
+import "../themes/theme.js" as Theme
 
 Row {
   property string fontFamily: ""
@@ -8,7 +9,7 @@ Row {
 
   Text {
     text: "NET"
-    color: "#928374" // subtle
+    color: Theme.colors.grey1
     font.family: fontFamily
     font.pixelSize: 12
   }
@@ -18,7 +19,7 @@ Row {
   Text {
     id: netDown
     text: "-"
-    color: "#ebdbb2" // fg0
+    color: Theme.colors.fg0
     font.family: fontFamily
     font.pixelSize: 12
     font.bold: true
@@ -26,14 +27,14 @@ Row {
 
   Text {
     text: "↓"
-    color: "#83a598" // aqua
+    color: Theme.colors.blue
     font.family: fontFamily
     font.pixelSize: 12
   }
 
   Text {
     text: "↑"
-    color: "#d3869b" // purple
+    color: Theme.colors.purple
     font.family: fontFamily
     font.pixelSize: 12
   }
@@ -41,7 +42,7 @@ Row {
   Text {
     id: netUp
     text: "-"
-    color: "#ebdbb2" // fg0
+    color: Theme.colors.fg0
     font.family: fontFamily
     font.pixelSize: 12
     font.bold: true

@@ -1,5 +1,6 @@
-import Quickshell.Hyprland
-import QtQuick
+ import Quickshell.Hyprland
+ import QtQuick
+import "../themes/theme.js" as Theme
 
 Row {
   property string fontFamily: ""
@@ -22,7 +23,7 @@ Row {
       width: Math.max(24, labelItem.implicitWidth + 12)
 
       // Lifted tile on top of the bar background
-      color: "#3c3836" // bg1
+      color: Theme.colors.bg1
 
       Text {
         id: labelItem
@@ -31,7 +32,7 @@ Row {
         font.pixelSize: 12
         font.family: fontFamily
         font.bold: true
-        color: "#ebdbb2" // fg0
+        color: Theme.colors.fg0
       }
 
       Rectangle {
@@ -40,7 +41,7 @@ Row {
         anchors.bottom: parent.bottom
         height: 3
         radius: 1
-        color: "#d79921" // accent (yellow)
+        color: Theme.colors.yellow
         visible: isActive
       }
 
@@ -52,7 +53,7 @@ Row {
         anchors.rightMargin: 3
         anchors.top: parent.top
         anchors.topMargin: 3
-        color: "#fb4934" // red
+        color: Theme.colors.red
         visible: !!modelData && modelData.urgent
       }
 

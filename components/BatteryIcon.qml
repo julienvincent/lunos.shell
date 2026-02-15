@@ -1,14 +1,15 @@
 import Quickshell.Services.UPower
 import QtQuick
+import "../themes/theme.js" as Theme
 
 Item {
   property string iconFontFamily: "Symbols Nerd Font"
   property string fontFamily: ""
 
   // Base "normal" color (used when >= 70%).
-  property color iconColor: "#ebdbb2"
+  property color iconColor: Theme.colors.fg0
 
-  property color chargingColor: "#b8bb26"
+  property color chargingColor: Theme.colors.green
 
   property int iconPixelSize: 16
   property bool showPercent: true
@@ -65,18 +66,18 @@ Item {
     }
 
     if (isLow) {
-      return flashOn ? "#fb4934" : iconColor;
+      return flashOn ? Theme.colors.red : iconColor;
     }
     if (percentage >= 70) {
       return iconColor;
     }
     if (percentage >= 40) {
-      return "#d79921"; // yellow
+      return Theme.colors.yellow;
     }
     if (percentage >= 20) {
-      return "#fe8019"; // orange
+      return Theme.colors.orange;
     }
-    return "#fb4934"; // red
+    return Theme.colors.red;
   }
 
   // Take the parent Row height so centering works.
@@ -93,7 +94,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
 
       visible: isPlugged || isCharging
-      color: isCharging ? effectiveColor : "#928374" // dim when just plugged
+      color: isCharging ? effectiveColor : Theme.colors.grey1 // dim when just plugged
       font.family: iconFontFamily
       font.pixelSize: iconPixelSize
 
@@ -144,7 +145,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       visible: parent.parent.visible && showPercent
 
-      color: percentage >= 70 ? "#928374" : effectiveColor
+      color: percentage >= 70 ? Theme.colors.grey1 : effectiveColor
       font.family: fontFamily.length ? fontFamily : iconFontFamily
       font.pixelSize: percentPixelSize
       font.bold: true

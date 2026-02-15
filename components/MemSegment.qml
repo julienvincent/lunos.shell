@@ -1,5 +1,6 @@
-import Quickshell.Io
-import QtQuick
+ import Quickshell.Io
+ import QtQuick
+import "../themes/theme.js" as Theme
 
 Row {
   property string fontFamily: ""
@@ -8,7 +9,7 @@ Row {
 
   Text {
     text: "MEM"
-    color: "#928374" // subtle
+    color: Theme.colors.grey1
     font.family: fontFamily
     font.pixelSize: 12
   }
@@ -16,7 +17,7 @@ Row {
   Text {
     id: memValue
     text: "-"
-    color: "#ebdbb2" // fg0
+    color: Theme.colors.fg0
     font.family: fontFamily
     font.pixelSize: 12
     font.bold: true

@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Services.Pipewire
 import QtQuick
 import QtQuick.Layouts
+import "../themes/theme.js" as Theme
 
 PopupWindow {
   id: osd
@@ -136,8 +137,8 @@ PopupWindow {
     anchors.fill: parent
     radius: 7
     opacity: osd.contentOpacity
-    color: "#282828"
-    border.color: "#928374"
+    color: Theme.colors.bg0
+    border.color: Theme.colors.grey1
     border.width: 2
 
     RowLayout {
@@ -147,7 +148,7 @@ PopupWindow {
 
       Text {
         text: (osd.audio && osd.audio.muted) ? "MUT" : "VOL"
-        color: "#ebdbb2"
+        color: Theme.colors.fg0
         font.family: osd.fontFamily
         font.pixelSize: 12
         font.bold: true
@@ -159,9 +160,9 @@ PopupWindow {
 
       Rectangle {
         id: track
-        color: "#3c3836"
+        color: Theme.colors.bg1
         radius: 6
-        border.color: "#504945"
+        border.color: Theme.colors.bg3
         border.width: 1
         height: 12
         Layout.fillWidth: true
@@ -173,7 +174,7 @@ PopupWindow {
           anchors.top: parent.top
           anchors.bottom: parent.bottom
           radius: 6
-          color: (osd.audio && osd.audio.muted) ? "#928374" : "#b8bb26"
+          color: (osd.audio && osd.audio.muted) ? Theme.colors.grey1 : Theme.colors.green
           width: {
             if (!osd.audio) {
               return 0;
@@ -192,7 +193,7 @@ PopupWindow {
           var p = Math.round(Math.max(0, osd.audio.volume) * 100);
           return String(p) + "%";
         }
-        color: "#ebdbb2"
+        color: Theme.colors.fg0
         font.family: osd.fontFamily
         font.pixelSize: 12
         font.bold: true

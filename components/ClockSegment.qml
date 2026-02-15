@@ -1,5 +1,6 @@
  import Quickshell
  import QtQuick
+import "../themes/theme.js" as Theme
  
  Row {
    property string fontFamily: ""
@@ -13,7 +14,7 @@
  
    Text {
      id: clockDate
-     color: "#ebdbb2" // fg0
+     color: Theme.colors.fg0
      font.family: fontFamily
      font.pixelSize: 12
      font.bold: true
@@ -22,7 +23,7 @@
  
    Text {
      id: clockTime
-     color: "#ebdbb2" // fg0
+     color: Theme.colors.fg0
      font.family: fontFamily
      font.pixelSize: 12
      font.bold: true
