@@ -29,12 +29,14 @@ PopupWindow {
   // Transformers for specific Chromium notification sources.
   // Keys are regex patterns matched against the extracted app name (from the <a> tag).
   property var chromiumTransformers: ({
-    ".*app\\.slack\\.com.*": {
-      summary: function(s) {
-        return s.replace(/^new message (?:from|in) /i, "");
-      }
-    }
-  })
+                                        ".*app\\.slack\\.com.*": {
+                                          summary: function (s) {
+                                            return s.replace(
+                                                  /^new message (?:from|in) /i,
+                                                  "");
+                                          }
+                                        }
+                                      })
 
   function applyChromiumTransformers(appName, field, value) {
     if (!appName || !value) {
@@ -133,9 +135,14 @@ PopupWindow {
 
         // ObjectModel exposes a single role named `modelData`.
         // For QAbstractItemModels, roles are exposed as properties.
-        property var notif: (typeof modelData === "object" && modelData && modelData.summary !== undefined)
-          ? modelData
-          : ((typeof modelData === "object" && modelData && modelData.modelData) ? modelData.modelData : null)
+        property var notif: (typeof modelData === "object" && modelData
+                             && modelData.summary !== undefined) ? modelData : ((
+                                                                                  typeof modelData
+                                                                                  === "object"
+                                                                                  && modelData
+                                                                                  && modelData.modelData)
+                                                                                ? modelData.modelData :
+                                                                                  null)
 
         NotificationToast {
           id: toast
@@ -158,7 +165,8 @@ PopupWindow {
             }
             var parsed = toasts.parseChromiumBody(notif);
             if (parsed) {
-              return toasts.applyChromiumTransformers(parsed.appName, "summary", notif.summary || "");
+              return toasts.applyChromiumTransformers(parsed.appName, "summary",
+                                                      notif.summary || "");
             }
             return notif.summary || "";
           }
@@ -177,7 +185,8 @@ PopupWindow {
               if (!src) {
                 return "";
               }
-              if (src.startsWith("file:") || src.startsWith("data:") || src.startsWith("image:") || src.startsWith("qrc:")) {
+              if (src.startsWith("file:") || src.startsWith("data:")
+                  || src.startsWith("image:") || src.startsWith("qrc:")) {
                 return src;
               }
               if (src.startsWith("/")) {
@@ -239,7 +248,7 @@ PopupWindow {
         }
       }
 
-      onObjectAdded: function(index, object) {
+      onObjectAdded: function (index, object) {
         object.parent = stack;
         toastCount = toastCount + 1;
         if (toasts.visible) {
@@ -247,7 +256,7 @@ PopupWindow {
         }
       }
 
-      onObjectRemoved: function(index, object) {
+      onObjectRemoved: function (index, object) {
         toastCount = Math.max(0, toastCount - 1);
         // Instantiator manages object lifetime; don't manually destroy.
         if (object) {

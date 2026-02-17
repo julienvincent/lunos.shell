@@ -37,7 +37,9 @@ Item {
       return false;
     }
 
-    return !UPower.onBattery && (dev.state === UPowerDeviceState.Charging || dev.state === UPowerDeviceState.PendingCharge);
+    return !UPower.onBattery && (dev.state === UPowerDeviceState.Charging
+                                 || dev.state
+                                 === UPowerDeviceState.PendingCharge);
   }
 
   property bool isPlugged: !UPower.onBattery
@@ -91,7 +93,8 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
 
       visible: isPlugged || isCharging
-      color: isCharging ? effectiveColor : Theme.colors.grey1 // dim when just plugged
+      color: isCharging ? effectiveColor :
+                          Theme.colors.grey1 // dim when just plugged
       font.family: Theme.fonts.icon
       font.pixelSize: iconPixelSize
 

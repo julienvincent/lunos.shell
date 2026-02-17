@@ -1,5 +1,5 @@
- import Quickshell.Io
- import QtQuick
+import Quickshell.Io
+import QtQuick
 import "../themes/theme.js" as Theme
 
 Row {
@@ -24,11 +24,8 @@ Row {
   Process {
     id: memProc
     running: true
-    command: [
-      "sh",
-      "-lc",
-      "awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2} END {used=(t-a)/1024/1024; total=t/1024/1024; printf \"%.1f/%.0fG\\n\", used, total}' /proc/meminfo"
-    ]
+    command: ["sh", "-lc",
+      "awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2} END {used=(t-a)/1024/1024; total=t/1024/1024; printf \"%.1f/%.0fG\\n\", used, total}' /proc/meminfo"]
 
     stdout: StdioCollector {
       onStreamFinished: {

@@ -25,3 +25,7 @@ Many users use root imports, in the form import "root:/path/to/module". These ar
 break the LSP and singletons. Keep that in mind if you decide to use them.
 
 A replacement without these issues is planned.
+
+## Formatting 
+
+Please run `just format` to format files after making changes.

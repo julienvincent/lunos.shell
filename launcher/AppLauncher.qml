@@ -16,7 +16,7 @@ PanelWindow {
   property int open_seq: 0
   property int max_results: 10
 
-  signal closeRequested()
+  signal closeRequested
 
   // If set, we focus this address after the launcher surface is actually unmapped.
   // This avoids the layer-shell surface immediately stealing focus back.
@@ -46,7 +46,7 @@ PanelWindow {
 
   onVisibleChanged: {
     if (visible) {
-      Qt.callLater(function() {
+      Qt.callLater(function () {
         focus_scope.forceActiveFocus();
       });
     }
@@ -75,20 +75,17 @@ PanelWindow {
         keywords_join = keywords.join(" ");
       }
 
-      var search_text = (
-        (entry.name || "") +
-        " " + (entry.genericName || "") +
-        " " + keywords_join
-      ).toLowerCase();
+      var search_text = ((entry.name || "") + " " + (entry.genericName || "")
+                         + " " + keywords_join).toLowerCase();
 
       out.push({
-        entry: entry,
-        name_lc: String(entry.name || "").toLowerCase(),
-        search_text: search_text,
-      });
+                 entry: entry,
+                 name_lc: String(entry.name || "").toLowerCase(),
+                 search_text: search_text
+               });
     }
 
-    out.sort(function(a, b) {
+    out.sort(function (a, b) {
       return a.name_lc.localeCompare(b.name_lc);
     });
 
@@ -107,7 +104,8 @@ PanelWindow {
     }
 
     if (q.length === 0) {
-      for (var i = 0; i < indexed_entries.length && results.length < max_results; i++) {
+      for (var i = 0; i < indexed_entries.length && results.length
+           < max_results; i++) {
         results.push(indexed_entries[i].entry);
       }
       filtered_entries = results;
@@ -119,11 +117,14 @@ PanelWindow {
       var item = indexed_entries[j];
       var s = Fuzzy.score(q, item.search_text);
       if (s > 0) {
-        results.push({ entry: item.entry, score: s });
+        results.push({
+                       entry: item.entry,
+                       score: s
+                     });
       }
     }
 
-    results.sort(function(a, b) {
+    results.sort(function (a, b) {
       if (b.score !== a.score) {
         return b.score - a.score;
       }
@@ -192,14 +193,15 @@ PanelWindow {
     add(entry.id);
 
     try {
-      var cmd0 = (entry.command && entry.command.length > 0) ? entry.command[0] : "";
+      var cmd0 = (entry.command && entry.command.length > 0) ? entry.command[0] :
+                                                               "";
       if (cmd0 && typeof cmd0 === "string") {
         var base = cmd0.split("/").pop();
         add(base);
       }
-    } catch (e) {
+    } catch (e)
       // ignore
-    }
+    {}
 
     return out;
   }
@@ -210,7 +212,8 @@ PanelWindow {
       return null;
     }
 
-    var tops = (Hyprland.toplevels && Hyprland.toplevels.values) ? Hyprland.toplevels.values : [];
+    var tops = (Hyprland.toplevels && Hyprland.toplevels.values)
+        ? Hyprland.toplevels.values : [];
     var best = null;
 
     for (var i = 0; i < tops.length; i++) {
@@ -356,7 +359,9 @@ PanelWindow {
 
   Connections {
     target: DesktopEntries
-    function onApplicationsChanged() { launcher.rebuildIndex(); }
+    function onApplicationsChanged() {
+      launcher.rebuildIndex();
+    }
   }
 
   onOpenChanged: {
@@ -383,7 +388,7 @@ PanelWindow {
     var addr = _pending_focus_address;
     _pending_focus_address = "";
 
-    Qt.callLater(function() {
+    Qt.callLater(function () {
       Hyprland.dispatch("focuswindow address:" + addr);
     });
   }
@@ -398,13 +403,12 @@ PanelWindow {
 
   onQueryChanged: updateFilter()
 
-
   FocusScope {
     id: focus_scope
     anchors.fill: parent
 
     Keys.priority: Keys.BeforeItem
-    Keys.onPressed: function(event) {
+    Keys.onPressed: function (event) {
       if (event.key === Qt.Key_Escape) {
         if ((search_bar.text || "").length > 0) {
           search_bar.text = "";
@@ -430,10 +434,10 @@ PanelWindow {
       }
 
       if (event.key === Qt.Key_Down) {
-        launcher.selected_index = Math.min(
-          Math.max(0, launcher.filtered_entries.length - 1),
-          launcher.selected_index + 1
-        );
+        launcher.selected_index = Math.min(Math.max(0,
+                                                    launcher.filtered_entries.length
+                                                    - 1), launcher.selected_index
+                                           + 1);
         event.accepted = true;
         return;
       }
@@ -446,8 +450,11 @@ PanelWindow {
     LauncherCard {
       id: card
 
-      property int card_width: Math.min(820, Math.max(520, Math.round(launcher.width * 0.56)))
-      property int card_height: Math.min(560, Math.max(300, Math.round(launcher.height * 0.62)))
+      property int card_width: Math.min(820, Math.max(520, Math.round(
+                                                        launcher.width * 0.56)))
+      property int card_height: Math.min(560, Math.max(300, Math.round(
+                                                         launcher.height
+                                                         * 0.62)))
 
       width: card_width
       height: card_height
@@ -463,7 +470,9 @@ PanelWindow {
           id: search_bar
           Layout.fillWidth: true
           accent_color: Theme.colors.yellow
-          onTextEdited: function(text) { launcher.query = text; }
+          onTextEdited: function (text) {
+            launcher.query = text;
+          }
         }
 
         Rectangle {
@@ -480,7 +489,7 @@ PanelWindow {
           entries: launcher.filtered_entries
           selected_index: launcher.selected_index
 
-          onActivated: function(idx) {
+          onActivated: function (idx) {
             launcher.selected_index = idx;
             launcher.runSelected(false);
           }

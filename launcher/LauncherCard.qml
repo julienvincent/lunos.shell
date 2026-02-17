@@ -8,7 +8,7 @@ Rectangle {
 
   property color accent_color: Theme.colors.yellow
 
-  signal clicked()
+  signal clicked
 
   radius: 8
   color: Theme.colors.bg0

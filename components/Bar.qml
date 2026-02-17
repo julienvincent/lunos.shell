@@ -1,5 +1,5 @@
- import Quickshell
- import QtQuick
+import Quickshell
+import QtQuick
 import "../themes/theme.js" as Theme
 
 PanelWindow {
@@ -38,13 +38,23 @@ PanelWindow {
     spacing: 12
 
     NetworkSegment {}
-    Separator { sepColor: sepTextColor }
+    Separator {
+      sepColor: sepTextColor
+    }
     CpuSegment {}
-    Separator { sepColor: sepTextColor }
+    Separator {
+      sepColor: sepTextColor
+    }
     MemSegment {}
-    Separator { sepColor: sepTextColor }
-    BatteryIcon { iconColor: Theme.colors.fg0 }
-    Separator { sepColor: sepTextColor }
+    Separator {
+      sepColor: sepTextColor
+    }
+    BatteryIcon {
+      iconColor: Theme.colors.fg0
+    }
+    Separator {
+      sepColor: sepTextColor
+    }
     ClockSegment {}
   }
 
@@ -54,5 +64,4 @@ PanelWindow {
     anchors.bottom: parent.bottom
     borderColor: Theme.colors.grey1 // subtle
   }
-
 }

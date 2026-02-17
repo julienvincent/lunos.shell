@@ -6,7 +6,7 @@ Rectangle {
 
   property real dim_opacity: 0.6
 
-  signal clicked()
+  signal clicked
 
   anchors.fill: parent
   color: Theme.colors.bg_dark

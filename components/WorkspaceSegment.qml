@@ -1,5 +1,5 @@
- import Quickshell.Hyprland
- import QtQuick
+import Quickshell.Hyprland
+import QtQuick
 import "../themes/theme.js" as Theme
 
 Row {
@@ -11,7 +11,9 @@ Row {
     delegate: Rectangle {
       required property var modelData // HyprlandWorkspace
 
-      property bool isSpecial: !!modelData && typeof modelData.name === "string" && modelData.name.indexOf("special:") === 0
+      property bool isSpecial: !!modelData && typeof modelData.name
+                               === "string" && modelData.name.indexOf(
+                                 "special:") === 0
       property bool isActive: !!modelData && modelData.focused
 
       visible: !isSpecial

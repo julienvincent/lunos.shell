@@ -118,7 +118,10 @@ PopupWindow {
   surfaceFormat.opaque: false
 
   Behavior on contentOpacity {
-    NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
+    NumberAnimation {
+      duration: 140
+      easing.type: Easing.OutCubic
+    }
   }
 
   onVisibleChanged: {
@@ -129,7 +132,10 @@ PopupWindow {
 
   Connections {
     target: anchorWindow
-    function onWidthChanged() { if (osd.visible) osd.anchor.updateAnchor(); }
+    function onWidthChanged() {
+      if (osd.visible)
+        osd.anchor.updateAnchor();
+    }
   }
 
   Rectangle {
@@ -173,7 +179,8 @@ PopupWindow {
           anchors.top: parent.top
           anchors.bottom: parent.bottom
           radius: 3
-          color: (osd.audio && osd.audio.muted) ? Theme.colors.grey1 : Theme.colors.yellow
+          color: (osd.audio && osd.audio.muted) ? Theme.colors.grey1 :
+                                                  Theme.colors.yellow
           width: {
             if (!osd.audio) {
               return 0;

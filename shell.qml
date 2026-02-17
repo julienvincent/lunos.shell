@@ -25,7 +25,8 @@ ShellRoot {
     }
 
     var target_name = focusedScreenName;
-    if (target_name.length === 0 && Quickshell.screens.length > 0 && Quickshell.screens[0]) {
+    if (target_name.length === 0 && Quickshell.screens.length > 0
+        && Quickshell.screens[0]) {
       target_name = Quickshell.screens[0].name;
     }
 
@@ -49,11 +50,13 @@ ShellRoot {
     var m = Hyprland.focusedMonitor;
     if (m && m.name) {
       name = m.name;
-    } else if (Hyprland.activeToplevel && Hyprland.activeToplevel.monitor && Hyprland.activeToplevel.monitor.name) {
+    } else if (Hyprland.activeToplevel && Hyprland.activeToplevel.monitor
+               && Hyprland.activeToplevel.monitor.name) {
       // Fall back to the monitor the active window is on.
       name = Hyprland.activeToplevel.monitor.name;
     }
-    if (name.length === 0 && Quickshell.screens.length > 0 && Quickshell.screens[0]) {
+    if (name.length === 0 && Quickshell.screens.length > 0
+        && Quickshell.screens[0]) {
       name = Quickshell.screens[0].name;
     }
     focusedScreenName = name;
@@ -61,7 +64,7 @@ ShellRoot {
 
   function refreshFocusedMonitor() {
     Hyprland.refreshMonitors();
-    Qt.callLater(function() {
+    Qt.callLater(function () {
       updateFocusedScreenName();
     });
   }
@@ -112,21 +115,19 @@ ShellRoot {
     persistenceSupported: true
     keepOnReload: true
 
-    onNotification: function(notification) {
+    onNotification: function (notification) {
       if (!notification) {
         return;
       }
-      console.log(
-        "Got Notification:",
-        JSON.stringify({
-          appIcon: notification.appIcon,
-          desktopEntry: notification.desktopEntry,
-          summary: notification.summary,
-          appName: notification.appName,
-          body: notification.body,
-          hints: notification.hints,
-        }, null, 2)
-      );
+      console.log("Got Notification:", JSON.stringify({
+                                                        appIcon: notification.appIcon,
+                                                        desktopEntry:
+                                                        notification.desktopEntry,
+                                                        summary: notification.summary,
+                                                        appName: notification.appName,
+                                                        body: notification.body,
+                                                        hints: notification.hints
+                                                      }, null, 2));
 
       // Prevent the server from immediately discarding the notification.
       notification.tracked = true;
@@ -170,7 +171,8 @@ ShellRoot {
 
           AppLauncher {
             anchorWindow: bar
-            open: root.launcher_open && root.launcher_screen_name === screenUi.screenModelData.name
+            open: root.launcher_open && root.launcher_screen_name
+                  === screenUi.screenModelData.name
             open_seq: root.launcher_open_seq
             enabled: true
 

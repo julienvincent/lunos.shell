@@ -9,7 +9,7 @@ Rectangle {
   required property var entry
   property bool selected: false
 
-  signal clicked()
+  signal clicked
 
   height: 44
   radius: 10
@@ -49,7 +49,8 @@ Rectangle {
       }
 
       Text {
-        visible: !!(row.entry && row.entry.genericName && row.entry.genericName.length > 0)
+        visible: !!(row.entry && row.entry.genericName
+                    && row.entry.genericName.length > 0)
         text: row.entry ? (row.entry.genericName || "") : ""
         color: Theme.colors.grey2
         font.family: Theme.fonts.text

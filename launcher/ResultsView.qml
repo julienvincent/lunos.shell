@@ -28,7 +28,8 @@ Flickable {
         height: row.height
         implicitHeight: row.height
 
-        property int row_index: results_view.entries ? results_view.entries.indexOf(modelData) : -1
+        property int row_index: results_view.entries
+                                ? results_view.entries.indexOf(modelData) : -1
 
         ResultRow {
           id: row

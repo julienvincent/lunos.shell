@@ -1,4 +1,4 @@
- import QtQuick
+import QtQuick
 import "../themes/theme.js" as Theme
 
 Text {

@@ -18,7 +18,8 @@ Item {
     // Force link coloring even if Qt ignores `linkColor`.
     // This assumes well-formed <a>...</a> markup from clients.
     var s = richText;
-    s = s.replace(/<a\b([^>]*)>/gi, '<a$1><font color="' + Theme.colors.blue + '">');
+    s = s.replace(/<a\b([^>]*)>/gi, '<a$1><font color="' + Theme.colors.blue
+                  + '">');
     s = s.replace(/<\/(a)>/gi, '</font></$1>');
     return s;
   }
@@ -129,7 +130,10 @@ Item {
       Column {
         id: content
         anchors.verticalCenter: parent.verticalCenter
-        width: Math.max(0, contentRow.width - (imageWrap.visible ? (imageWrap.width + contentRow.spacing) : 0))
+        width: Math.max(0, contentRow.width - (imageWrap.visible ? (
+                                                                     imageWrap.width
+                                                                     + contentRow.spacing) :
+                                                                   0))
         spacing: 4
 
         Text {
@@ -226,7 +230,8 @@ Item {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: 6
-            text: notification ? (notification.inlineReplyPlaceholder || "Reply") : "Reply"
+            text: notification ? (notification.inlineReplyPlaceholder
+                                  || "Reply") : "Reply"
             color: Theme.colors.grey1
             font.family: Theme.fonts.text
             font.pixelSize: 12
