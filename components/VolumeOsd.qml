@@ -137,8 +137,8 @@ PopupWindow {
     radius: 7
     opacity: osd.contentOpacity
     color: Theme.colors.bg0
-    border.color: Theme.colors.grey1
-    border.width: 2
+    border.color: Theme.colors.yellow
+    border.width: 1.5
 
     RowLayout {
       anchors.fill: parent
@@ -160,8 +160,8 @@ PopupWindow {
       Rectangle {
         id: track
         color: Theme.colors.bg1
-        radius: 6
-        border.color: Theme.colors.bg3
+        radius: 3
+        border.color: Theme.colors.grey0
         border.width: 1
         height: 12
         Layout.fillWidth: true
@@ -172,8 +172,8 @@ PopupWindow {
           anchors.left: parent.left
           anchors.top: parent.top
           anchors.bottom: parent.bottom
-          radius: 6
-          color: (osd.audio && osd.audio.muted) ? Theme.colors.grey1 : Theme.colors.green
+          radius: 3
+          color: (osd.audio && osd.audio.muted) ? Theme.colors.grey1 : Theme.colors.yellow
           width: {
             if (!osd.audio) {
               return 0;

@@ -28,13 +28,15 @@ Row {
     color: Theme.colors.blue
     font.family: Theme.fonts.text
     font.pixelSize: 12
+    font.bold: true
   }
 
   Text {
     text: "↑"
-    color: Theme.colors.purple
+    color: Theme.colors.orange
     font.family: Theme.fonts.text
     font.pixelSize: 12
+    font.bold: true
   }
 
   Text {
