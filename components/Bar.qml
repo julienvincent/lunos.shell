@@ -5,6 +5,7 @@ import "../themes/theme.js" as Theme
 PanelWindow {
   id: barWindow
   required property var modelData
+  signal clockClicked
   screen: modelData
 
   anchors {
@@ -55,7 +56,11 @@ PanelWindow {
     Separator {
       sepColor: sepTextColor
     }
-    ClockSegment {}
+    ClockSegment {
+      onClicked: {
+        barWindow.clockClicked();
+      }
+    }
   }
 
   BottomBorder {

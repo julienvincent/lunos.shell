@@ -3,6 +3,7 @@ import Quickshell.Hyprland
 import Quickshell.Services.Notifications
 import QtQuick
 import "components"
+import "notifications" as Notifications
 import "launcher"
 
 ShellRoot {
@@ -13,6 +14,7 @@ ShellRoot {
   property bool launcher_open: false
   property string launcher_screen_name: ""
   property int launcher_open_seq: 0
+  property bool notifications_overlay_open: false
 
   function toggleLauncher() {
     if (launcher_open) {
@@ -156,6 +158,11 @@ ShellRoot {
           Bar {
             id: bar
             modelData: screenUi.screenModelData
+
+            onClockClicked: {
+              root.notifications_overlay_open =
+                  !root.notifications_overlay_open;
+            }
           }
 
           VolumeOsd {
@@ -163,10 +170,23 @@ ShellRoot {
             enabled: root.isFocusedScreen(screenUi.screenModelData)
           }
 
-          NotificationToasts {
+          Notifications.NotificationToasts {
+            id: toasts
             anchorWindow: bar
             model: notifServer.trackedNotifications
             enabled: root.isFocusedScreen(screenUi.screenModelData)
+          }
+
+          Notifications.NotificationOverlay {
+            anchorWindow: bar
+            model: notifServer.trackedNotifications
+            hiddenNotifications: toasts.hiddenNotifications
+            enabled: root.isFocusedScreen(screenUi.screenModelData)
+            open: root.notifications_overlay_open
+
+            onCloseRequested: {
+              root.notifications_overlay_open = false;
+            }
           }
 
           AppLauncher {

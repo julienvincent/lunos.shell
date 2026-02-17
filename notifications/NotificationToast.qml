@@ -1,5 +1,5 @@
+import Quickshell
 import QtQuick
-import QtQuick.Shapes
 import "../themes/theme.js" as Theme
 
 Item {
@@ -9,6 +9,120 @@ Item {
   property string toastSummary: ""
   property string toastBody: ""
   property string toastImage: ""
+
+  function parseChromiumBody(notif) {
+    if (!notif || notif.desktopEntry !== "chromium-browser") {
+      return null;
+    }
+
+    var body = notif.body || "";
+    var match = body.match(/^<a\b[^>]*>([\s\S]*?)<\/a>\s*/i);
+    if (!match) {
+      return null;
+    }
+
+    return {
+      appName: match[1].trim(),
+      body: body.slice(match[0].length)
+    };
+  }
+
+  property var chromiumTransformers: ({
+                                        ".*app\\.slack\\.com.*": {
+                                          summary: function (s) {
+                                            return s.replace(
+                                                  /^new message (?:from|in) /i,
+                                                  "");
+                                          }
+                                        }
+                                      })
+
+  function applyChromiumTransformers(appName, field, value) {
+    if (!appName || !value) {
+      return value;
+    }
+    for (var pattern in chromiumTransformers) {
+      var regex = new RegExp(pattern, "i");
+      if (regex.test(appName)) {
+        var transformer = chromiumTransformers[pattern][field];
+        if (typeof transformer === "function") {
+          return transformer(value);
+        }
+      }
+    }
+    return value;
+  }
+
+  function resolveImage(src) {
+    if (!src) {
+      return "";
+    }
+    if (src.startsWith("file:") || src.startsWith("data:") || src.startsWith(
+          "image:") || src.startsWith("qrc:")) {
+      return src;
+    }
+    if (src.startsWith("/")) {
+      return "file://" + src;
+    }
+    if (src.indexOf("/") !== -1) {
+      return src;
+    }
+
+    var p = Quickshell.iconPath(src, true);
+    if (p && p.length > 0) {
+      return p;
+    }
+    p = Quickshell.iconPath(src);
+    return p || "";
+  }
+
+  property var parsedChromium: parseChromiumBody(notification)
+  property string computedAppName: {
+    if (toastAppName.length > 0) {
+      return toastAppName;
+    }
+    if (!notification) {
+      return "";
+    }
+    if (parsedChromium) {
+      return parsedChromium.appName;
+    }
+    return notification.appName || "";
+  }
+  property string computedSummary: {
+    if (toastSummary.length > 0) {
+      return toastSummary;
+    }
+    if (!notification) {
+      return "";
+    }
+    if (parsedChromium) {
+      return applyChromiumTransformers(parsedChromium.appName, "summary",
+                                       notification.summary || "");
+    }
+    return notification.summary || "";
+  }
+  property string computedBody: {
+    if (toastBody.length > 0) {
+      return toastBody;
+    }
+    if (!notification) {
+      return "";
+    }
+    if (parsedChromium) {
+      return parsedChromium.body;
+    }
+    return notification.body || "";
+  }
+  property string computedImage: {
+    if (toastImage.length > 0) {
+      return toastImage;
+    }
+    if (!notification) {
+      return "";
+    }
+    return resolveImage(notification.image || notification.appIcon || "");
+  }
 
   function tintLinks(richText) {
     if (!richText || typeof richText !== "string") {
@@ -88,7 +202,7 @@ Item {
     MouseArea {
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
-      onClicked: {
+      onClicked: function (mouse) {
         mouse.accepted = true;
         parent.parent.dismissClicked();
       }
@@ -109,7 +223,7 @@ Item {
 
       Rectangle {
         id: imageWrap
-        visible: toastImage.length > 0
+        visible: computedImage.length > 0
         width: 44
         height: 44
         anchors.verticalCenter: parent.verticalCenter
@@ -120,7 +234,7 @@ Item {
         Image {
           anchors.fill: parent
           anchors.margins: 4
-          source: toastImage
+          source: computedImage
           fillMode: Image.PreserveAspectFit
           smooth: true
           mipmap: true
@@ -137,8 +251,8 @@ Item {
         spacing: 4
 
         Text {
-          visible: toastAppName.length > 0
-          text: toastAppName
+          visible: computedAppName.length > 0
+          text: computedAppName
           width: parent.width
           color: Theme.colors.grey1
           font.family: Theme.fonts.text
@@ -147,7 +261,7 @@ Item {
         }
 
         Text {
-          text: tintLinks(toastSummary)
+          text: tintLinks(computedSummary)
           width: parent.width
           color: Theme.colors.fg0
           font.family: Theme.fonts.text
@@ -163,8 +277,8 @@ Item {
         }
 
         Text {
-          visible: toastBody.length > 0
-          text: tintLinks(toastBody)
+          visible: computedBody.length > 0
+          text: tintLinks(computedBody)
           width: parent.width
           color: Theme.colors.fg0
           opacity: 0.9
@@ -193,7 +307,7 @@ Item {
 
           MouseArea {
             anchors.fill: parent
-            onClicked: {
+            onClicked: function (mouse) {
               replyInput.forceActiveFocus();
               mouse.accepted = true;
             }
